@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MailTrack Pro — ระบบจัดการจดหมาย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════
+   DARK MODE (default)
+═══════════════════════════════════════════════ */
+:root, [data-theme="dark"] {
+  --bg: #0a1628;
+  --bg2: #112240;
+  --bg3: #1a3a5c;
+  --card: #152438;
+  --card2: #1e3250;
+  --accent: #00b4d8;
+  --accent2: #0096c7;
+  --accent3: #48cae4;
+  --amber: #f4a261;
+  --amber2: #e76f51;
+  --green: #2dc653;
+  --green2: #1a8a38;
+  --red: #ef233c;
+  --white: #f0f4f8;
+  --muted: #8899aa;
+  --border: rgba(0,180,216,0.18);
+  --border2: rgba(0,180,216,0.35);
+  --shadow: 0 4px 24px rgba(0,0,0,0.35);
+  --sidebar-bg: #112240;
+  --topbar-bg: #112240;
+  --input-bg: #112240;
+  --table-head: #112240;
+  --hover-row: rgba(0,180,216,0.04);
+  --text: #f0f4f8;
+  --toggle-bg: #1e3250;
+}
+
+/* ═══════════════════════════════════════════════
+   LIGHT MODE — Hino Motors Thailand Premium
+═══════════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg: #f4f6f8;
+  --bg2: #ffffff;
+  --bg3: #e8edf2;
+  --card: #ffffff;
+  --card2: #f8f9fb;
+  --accent: #cc0000;
+  --accent2: #a80000;
+  --accent3: #e53935;
+  --amber: #b8860b;
+  --amber2: #996300;
+  --green: #1a7a2e;
+  --green2: #145e22;
+  --red: #cc0000;
+  --white: #1a1a2e;
+  --muted: #6b7a8d;
+  --border: rgba(180,0,0,0.15);
+  --border2: rgba(180,0,0,0.3);
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --sidebar-bg: #1a1a2e;
+  --topbar-bg: #ffffff;
+  --input-bg: #f4f6f8;
+  --table-head: #1a1a2e;
+  --hover-row: rgba(204,0,0,0.03);
+  --text: #1a1a2e;
+  --toggle-bg: #e8edf2;
+}
+
+[data-theme="light"] .sidebar { color: #f0f4f8 !important; }
+[data-theme="light"] .nav-item { color: rgba(240,244,248,0.7) !important; }
+[data-theme="light"] .nav-item:hover, [data-theme="light"] .nav-item.active { color: #fff !important; }
+[data-theme="light"] .logo-text { color: #fff !important; }
+[data-theme="light"] .logo-sub { color: rgba(255,255,255,0.5) !important; }
+[data-theme="light"] .nav-label { color: rgba(255,255,255,0.4) !important; }
+[data-theme="light"] .sidebar-footer { border-color: rgba(255,255,255,0.1) !important; }
+[data-theme="light"] .sidebar-footer { color: rgba(255,255,255,0.6) !important; }
+[data-theme="light"] .sidebar-role-bar.guard { border-color: rgba(255,255,255,0.2) !important; }
+[data-theme="light"] .sidebar-role-bar.admin { border-color: rgba(255,200,0,0.3) !important; }
+[data-theme="light"] .stat-value { color: var(--accent) !important; }
+[data-theme="light"] .stat-card.blue .stat-value { color: #cc0000 !important; }
+[data-theme="light"] .stat-card.amber .stat-value { color: #b8860b !important; }
+[data-theme="light"] .stat-card.green .stat-value { color: #1a7a2e !important; }
+[data-theme="light"] .stat-card.red .stat-value { color: #cc0000 !important; }
+[data-theme="light"] .topbar { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+[data-theme="light"] .card-title { color: #cc0000 !important; }
+[data-theme="light"] .card-title .dot { background: #cc0000 !important; box-shadow: 0 0 6px rgba(204,0,0,0.4) !important; }
+[data-theme="light"] .section-title { color: #1a1a2e !important; }
+[data-theme="light"] .form-input { color: #1a1a2e !important; }
+[data-theme="light"] .form-input::placeholder { color: #9aa5b1 !important; }
+[data-theme="light"] .btn-outline { color: #cc0000 !important; border-color: rgba(204,0,0,0.3) !important; }
+[data-theme="light"] .btn-outline:hover { background: rgba(204,0,0,0.06) !important; }
+[data-theme="light"] .datetime-display { color: #cc0000 !important; }
+[data-theme="light"] .topbar-title { color: #1a1a2e !important; }
+[data-theme="light"] .topbar-sub { color: #6b7a8d !important; }
+[data-theme="light"] .status-dot { background: #1a7a2e !important; box-shadow: 0 0 8px rgba(26,122,46,0.5) !important; }
+[data-theme="light"] table thead tr { background: #1a1a2e !important; }
+[data-theme="light"] thead th { color: rgba(255,255,255,0.7) !important; }
+[data-theme="light"] td { color: #1a1a2e !important; }
+[data-theme="light"] .hino-stripe {
+  background: linear-gradient(135deg, #cc0000 0%, #1a1a2e 100%);
+}
+[data-theme="light"] .user-badge { background: #f4f6f8 !important; border-color: rgba(204,0,0,0.2) !important; }
+[data-theme="light"] .user-badge .uname { color: #1a1a2e !important; }
+[data-theme="light"] .user-badge .urole { color: #6b7a8d !important; }
+[data-theme="light"] .search-bar { background: #f4f6f8 !important; }
+[data-theme="light"] .search-bar input { color: #1a1a2e !important; }
+[data-theme="light"] .dropdown { background: #fff !important; }
+[data-theme="light"] .dropdown-item { color: #1a1a2e !important; }
+[data-theme="light"] .dropdown-item:hover { background: rgba(204,0,0,0.05) !important; }
+[data-theme="light"] .modal { background: #fff !important; }
+[data-theme="light"] .stat-card { background: #fff !important; }
+[data-theme="light"] .stat-sub { color: #6b7a8d !important; }
+[data-theme="light"] .stat-card.blue::before { background: #cc0000 !important; }
+[data-theme="light"] .empty-state { color: #9aa5b1 !important; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'IBM Plex Sans Thai', 'Sarabun', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ─── LAYOUT ─── */
+.layout { display: flex; height: 100vh; overflow: hidden; }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 230px; min-width: 230px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  height: 100vh; overflow-y: auto; overflow-x: hidden;
+  transition: all 0.3s; flex-shrink: 0;
+  z-index: 100;
+}
+.sidebar.collapsed { width: 0; min-width: 0; overflow: hidden; }
+
+.sidebar-logo {
+  padding: 1.1rem 1.1rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.logo-text { font-size: 13px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+.logo-sub { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+.nav-section { padding: 0.85rem 0.65rem 0.2rem; flex-shrink: 0; }
+.nav-label { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; padding: 0 0.5rem; margin-bottom: 4px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  cursor: pointer; font-size: 13px; font-weight: 500;
+  color: var(--muted); transition: all 0.15s;
+  margin-bottom: 2px; white-space: nowrap;
+}
+.nav-item:hover { background: var(--card2); color: var(--white); }
+.nav-item.active { background: rgba(0,180,216,0.12); color: var(--accent); }
+[data-theme="light"] .nav-item.active { background: rgba(204,0,0,0.15); color: #fff; }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+.badge {
+  margin-left: auto; background: var(--accent); color: var(--bg);
+  font-size: 11px; font-weight: 700; padding: 1px 7px;
+  border-radius: 20px; min-width: 20px; text-align: center;
+}
+.badge.red { background: var(--red); color: #fff; }
+
+.sidebar-footer {
+  margin-top: auto; padding: 0.65rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); flex-shrink: 0;
+}
+.sidebar-role-bar {
+  margin: 0 0.65rem 0.4rem;
+  padding: 7px 10px; border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.sidebar-role-bar.admin { background: rgba(244,162,97,0.1); color: var(--amber); border: 1px solid rgba(244,162,97,0.2); }
+.sidebar-role-bar.guard { background: rgba(0,180,216,0.08); color: var(--accent3); border: 1px solid var(--border); }
+[data-theme="light"] .sidebar-role-bar.guard { color: rgba(255,255,255,0.8) !important; }
+
+/* ─── MAIN ─── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+/* ─── TOPBAR ─── */
+.topbar {
+  height: 54px; background: var(--topbar-bg);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 1rem; gap: 0.75rem;
+  flex-shrink: 0; z-index: 50;
+}
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.topbar-sub { font-size: 11px; color: var(--muted); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.datetime-display {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; color: var(--accent3);
+  background: rgba(0,180,216,0.08);
+  padding: 4px 10px; border-radius: 20px;
+  border: 1px solid var(--border);
+}
+[data-theme="light"] .datetime-display { background: rgba(204,0,0,0.06); border-color: rgba(204,0,0,0.2); }
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+}
+.sidebar-toggle {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 18px; padding: 6px; border-radius: 6px; line-height: 1;
+  transition: background 0.15s;
+}
+.sidebar-toggle:hover { background: var(--card2); color: var(--text); }
+
+/* ─── CONTENT ─── */
+.content { padding: 1.25rem; flex: 1; overflow-y: auto; overflow-x: hidden; }
+
+/* ─── PAGES ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── CARD ─── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+}
+.card-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--accent); margin-bottom: 0.85rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 6px var(--accent);
+}
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.85rem; margin-bottom: 1.25rem; }
+.stat-card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card.blue::before { background: var(--accent); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before { background: var(--red); }
+.stat-label { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; }
+.stat-value { font-size: 26px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
+.stat-card.blue .stat-value { color: var(--accent3); }
+.stat-card.amber .stat-value { color: var(--amber); }
+.stat-card.green .stat-value { color: var(--green); }
+.stat-card.red .stat-value { color: var(--red); }
+.stat-sub { font-size: 11px; color: var(--muted); }
+
+/* ─── FORM ─── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.form-input {
+  background: var(--input-bg);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 14px; color: var(--text);
+  font-family: inherit; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.12); }
+[data-theme="light"] .form-input:focus { box-shadow: 0 0 0 3px rgba(204,0,0,0.1); }
+.form-input::placeholder { color: var(--muted); }
+.ems-input { font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.04em; }
+
+/* ─── AUTOCOMPLETE ─── */
+.autocomplete-wrap { position: relative; }
+.dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--card2); border: 1px solid var(--border2);
+  border-radius: 8px; z-index: 200;
+  max-height: 220px; overflow-y: auto;
+  box-shadow: var(--shadow); display: none;
+}
+.dropdown.open { display: block; }
+.dropdown-item {
+  padding: 9px 12px; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  transition: background 0.1s; font-size: 13px;
+}
+.dropdown-item:hover { background: rgba(0,180,216,0.1); }
+.dropdown-item .avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent2), var(--bg3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--accent3); flex-shrink: 0;
+}
+.dropdown-item .name { font-weight: 500; }
+.dropdown-item .dept { font-size: 11px; color: var(--muted); }
+.dropdown-item .emp-email { font-size: 10px; color: var(--accent); margin-top: 1px; }
+.search-highlight { color: var(--accent); font-weight: 700; }
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 8px;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; outline: none; transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  color: var(--bg); box-shadow: 0 0 14px rgba(0,180,216,0.25);
+}
+[data-theme="light"] .btn-primary {
+  background: linear-gradient(135deg, #a80000, #cc0000);
+  color: #fff; box-shadow: 0 0 14px rgba(204,0,0,0.25);
+}
+.btn-primary:hover { box-shadow: 0 0 22px rgba(0,180,216,0.4); transform: translateY(-1px); }
+[data-theme="light"] .btn-primary:hover { box-shadow: 0 0 22px rgba(204,0,0,0.35); }
+.btn-outline {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--border2);
+}
+.btn-outline:hover { background: rgba(0,180,216,0.08); }
+.btn-scan {
+  background: linear-gradient(135deg, var(--amber2), var(--amber));
+  color: var(--bg); font-size: 14px; padding: 11px 22px;
+}
+.btn-scan:hover { transform: translateY(-1px); }
+.btn-green {
+  background: linear-gradient(135deg, var(--green2), var(--green));
+  color: #fff;
+}
+.btn-danger { background: var(--red); color: #fff; }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+/* ─── TABLE ─── */
+.table-wrap { overflow-x: auto; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { background: var(--table-head); }
+th { padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+[data-theme="light"] th { color: rgba(255,255,255,0.6); }
+td { padding: 10px 12px; border-bottom: 1px solid rgba(0,180,216,0.07); vertical-align: middle; color: var(--text); }
+[data-theme="light"] td { border-bottom-color: rgba(0,0,0,0.06); }
+tr:hover td { background: var(--hover-row); }
+tr:last-child td { border-bottom: none; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.pill.pending { background: rgba(244,162,97,0.15); color: var(--amber); border: 1px solid rgba(244,162,97,0.3); }
+.pill.received { background: rgba(45,198,83,0.15); color: var(--green); border: 1px solid rgba(45,198,83,0.3); }
+[data-theme="light"] .pill.received { background: rgba(26,122,46,0.1); color: var(--green); border-color: rgba(26,122,46,0.3); }
+
+/* ─── SCANNER ─── */
+.scanner-area {
+  background: var(--bg2);
+  border: 2px dashed var(--border2);
+  border-radius: 12px;
+  padding: 1.5rem; text-align: center;
+  margin-bottom: 0.85rem;
+  position: relative; overflow: hidden;
+}
+.scan-line {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanMove 2s infinite linear; display: none;
+}
+@keyframes scanMove { 0%{top:30%} 50%{top:70%} 100%{top:30%} }
+
+/* ─── TOAST ─── */
+#toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--card2); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 12px 16px;
+  font-size: 13px; font-weight: 500; z-index: 9999;
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s; max-width: 300px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { border-color: var(--green); }
+#toast.error { border-color: var(--red); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 500; display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card2); border: 1px solid var(--border2);
+  border-radius: 12px; padding: 1.5rem;
+  width: 100%; max-width: 440px; position: relative;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-title { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 1.1rem; }
+[data-theme="light"] .modal-title { color: var(--red) !important; }
+.modal-close {
+  position: absolute; top: 0.85rem; right: 0.85rem;
+  background: none; border: none; color: var(--muted);
+  font-size: 17px; cursor: pointer; padding: 4px; line-height: 1;
+}
+
+/* ─── MISC ─── */
+.section-title { font-size: 18px; font-weight: 700; margin-bottom: 0.2rem; }
+.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; }
+.divider { height: 1px; background: var(--border); margin: 1rem 0; }
+.selected-emp {
+  background: rgba(0,180,216,0.1); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 9px 12px;
+  display: flex; align-items: center; gap: 10px; margin-top: 5px;
+}
+[data-theme="light"] .selected-emp { background: rgba(204,0,0,0.06); }
+.selected-emp .name { font-weight: 600; font-size: 13px; }
+.selected-emp .email { font-size: 11px; color: var(--accent); }
+.selected-emp .dept { font-size: 11px; color: var(--muted); }
+.import-zone {
+  border: 2px dashed var(--border2); border-radius: 12px;
+  padding: 1.5rem; text-align: center; cursor: pointer;
+  transition: border-color 0.2s; color: var(--muted);
+}
+.import-zone:hover { border-color: var(--accent); }
+.empty-state { text-align: center; padding: 2.5rem; color: var(--muted); }
+.empty-state .icon { font-size: 42px; margin-bottom: 0.85rem; }
+.search-bar {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--input-bg); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 7px 12px;
+}
+.search-bar input {
+  background: none; border: none; outline: none;
+  color: var(--text); font-family: inherit; font-size: 13px; flex: 1;
+}
+
+/* ─── THEME TOGGLE ─── */
+.theme-toggle {
+  background: var(--toggle-bg); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 8px; cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--muted); transition: all 0.2s;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--text); }
+
+/* ─── USER BADGE ─── */
+.user-badge {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 10px 4px 6px;
+  cursor: pointer; transition: background 0.15s;
+}
+.user-badge:hover { background: var(--card2); }
+.user-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+}
+.user-avatar.admin { background: rgba(244,162,97,0.2); color: var(--amber); }
+.user-avatar.guard { background: rgba(0,180,216,0.2); color: var(--accent); }
+.user-badge .uname { font-size: 12px; font-weight: 600; }
+.user-badge .urole { font-size: 10px; color: var(--muted); }
+
+/* ─── CODE EDITOR ─── */
+.code-editor-wrap {
+  background: #0d1117; border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+}
+.code-editor-toolbar {
+  background: #161b22; padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.code-editor-toolbar .dot-r { width:12px;height:12px;border-radius:50%;background:#ff5f57; }
+.code-editor-toolbar .dot-y { width:12px;height:12px;border-radius:50%;background:#febc2e; }
+.code-editor-toolbar .dot-g { width:12px;height:12px;border-radius:50%;background:#28c840; }
+#code-textarea {
+  width: 100%; min-height: 400px;
+  background: #0d1117; color: #c9d1d9;
+  border: none; outline: none; padding: 16px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6;
+  resize: vertical;
+}
+
+/* ─── LOGIN SCREEN ─── */
+#login-screen {
+  position: fixed; inset: 0; z-index: 9000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  overflow-y: auto;
+}
+#login-screen.hidden { display: none; }
+.login-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.login-bg .circle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,216,0.07) 0%, transparent 70%);
+}
+.login-container {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 420px; padding: 1rem;
+}
+.login-logo { text-align: center; margin-bottom: 1.5rem; }
+.login-logo .icon-wrap {
+  width: 60px; height: 60px; border-radius: 14px; margin: 0 auto 0.85rem;
+  background: linear-gradient(135deg, var(--accent2), var(--bg3));
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; box-shadow: 0 0 28px rgba(0,180,216,0.2);
+}
+.login-logo h1 { font-size: 20px; font-weight: 700; color: var(--text); }
+.login-logo p { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+.role-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin-bottom: 1.25rem; }
+.role-tab {
+  padding: 10px 8px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--card);
+  cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.role-tab:hover { border-color: var(--border2); }
+.role-tab.active { border-color: var(--accent); background: rgba(0,180,216,0.1); }
+.role-tab .role-icon { font-size: 22px; margin-bottom: 5px; }
+.role-tab .role-name { font-size: 12px; font-weight: 600; }
+.role-tab .role-desc { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.role-tab.active .role-name { color: var(--accent); }
+
+.login-card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+}
+.login-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 1.1rem; }
+.login-error {
+  background: rgba(239,35,60,0.1); border: 1px solid rgba(239,35,60,0.3);
+  border-radius: 8px; padding: 9px 12px;
+  font-size: 12px; color: var(--red); margin-bottom: 0.85rem; display: none;
+}
+.login-error.show { display: block; }
+.login-hint {
+  background: rgba(0,180,216,0.07); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 12px;
+  font-size: 12px; color: var(--muted); margin-top: 0.85rem;
+}
+.login-hint b { color: var(--accent3); }
+
+/* Employee view (no login) */
+#emp-view-screen {
+  position: fixed; inset: 0; z-index: 8900;
+  background: var(--bg); display: none; flex-direction: column;
+  overflow: hidden;
+}
+#emp-view-screen.active { display: flex; }
+.emp-view-topbar {
+  background: var(--topbar-bg); border-bottom: 1px solid var(--border);
+  padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.emp-view-content { flex: 1; overflow-y: auto; padding: 1.25rem; }
+
+/* ─── MOBILE ─── */
+@media(max-width: 768px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+  .datetime-display { display: none; }
+  .content { padding: 0.85rem; }
+  .receive-grid { grid-template-columns: 1fr !important; }
+  .accounts-grid { grid-template-columns: 1fr !important; }
+  .settings-grid { grid-template-columns: 1fr !important; }
+  .history-filters { flex-direction: column; }
+  .topbar { padding: 0 0.75rem; }
+  .section-title { font-size: 16px; }
+}
+@media(max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .stat-value { font-size: 22px; }
+}
+
+/* ─── PERMISSIONS TABLE ─── */
+.perm-check { cursor: pointer; font-size: 16px; }
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- ═══ EMPLOYEE VIEW (no login) ═══ -->
+<div id="emp-view-screen">
+  <div class="emp-view-topbar">
+    <div class="logo-icon" style="width:32px;height:32px;font-size:16px">📬</div>
+    <div>
+      <div style="font-size:14px;font-weight:700">ตรวจสอบสถานะจดหมาย EMS</div>
+      <div style="font-size:11px;color:var(--muted)">สำหรับพนักงาน — ไม่ต้องเข้าสู่ระบบ</div>
+    </div>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="closeEmpView()">← กลับ</button>
+  </div>
+  <div class="emp-view-content">
+    <div class="search-bar" style="margin-bottom:1rem">
+      <span>🔍</span>
+      <input placeholder="ค้นหาด้วยเลข EMS หรือชื่อผู้รับ..." id="emp-view-search" oninput="renderEmpView(this.value)">
+    </div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>เลข EMS</th>
+              <th>ประเภท</th>
+              <th>ผู้รับ</th>
+              <th>แผนก</th>
+              <th>วันที่รับเข้า</th>
+              <th>สถานะ</th>
+            </tr>
+          </thead>
+          <tbody id="emp-view-table">
+            <tr><td colspan="6"><div class="empty-state"><div class="icon">📭</div>ยังไม่มีข้อมูล</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="login-screen">
+  <div class="login-bg">
+    <div class="circle" style="width:500px;height:500px;top:-200px;right:-150px"></div>
+    <div class="circle" style="width:350px;height:350px;bottom:-100px;left:-100px"></div>
+  </div>
+  <div class="login-container">
+    <div class="login-logo">
+      <div class="icon-wrap">📬</div>
+      <h1>MailTrack Pro</h1>
+      <p>ระบบจัดการจดหมายและพัสดุ EMS</p>
+    </div>
+
+    <div class="role-tabs">
+      <div class="role-tab active" id="tab-admin" onclick="selectRole('admin')">
+        <div class="role-icon">🛡️</div>
+        <div class="role-name">ผู้ดูแลระบบ</div>
+        <div class="role-desc">Admin</div>
+      </div>
+      <div class="role-tab" id="tab-guard" onclick="selectRole('guard')">
+        <div class="role-icon">🔒</div>
+        <div class="role-name">เจ้าหน้าที่ รปภ.</div>
+        <div class="role-desc">Security Guard</div>
+      </div>
+      <div class="role-tab" id="tab-empview" onclick="openEmpView()">
+        <div class="role-icon">👤</div>
+        <div class="role-name">พนักงาน</div>
+        <div class="role-desc">ตรวจสอบ EMS</div>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <h2 id="login-title">🛡️ เข้าสู่ระบบ — ผู้ดูแล</h2>
+      <div class="login-error" id="login-error">รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่</div>
+      <div style="display:flex;flex-direction:column;gap:0.85rem">
+        <div class="form-group">
+          <div class="form-label">ชื่อผู้ใช้</div>
+          <input class="form-input" id="login-user" placeholder="กรอกชื่อผู้ใช้" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div class="form-group">
+          <div class="form-label">รหัสผ่าน</div>
+          <div style="position:relative">
+            <input class="form-input" id="login-pass" type="password" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" style="padding-right:42px" onkeydown="if(event.key==='Enter')doLogin()">
+            <button onclick="togglePw()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px">👁</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px" onclick="doLogin()">เข้าสู่ระบบ →</button>
+      </div>
+      <div class="login-hint">
+        <div style="margin-bottom:5px;font-size:10px;font-weight:700;color:var(--accent3)">ข้อมูลทดสอบ (Demo)</div>
+        <div>👑 Admin — user: <b>admin</b> / pass: <b>admin1234</b></div>
+        <div style="margin-top:3px">🔒 รปภ. — user: <b>guard</b> / pass: <b>guard1234</b></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1rem">
+      <button class="theme-toggle" onclick="toggleTheme()" style="margin:auto">
+        <span id="login-theme-icon">🌙</span> <span id="login-theme-label">โหมดสว่าง</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN APP ═══ -->
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">📬</div>
+    <div>
+      <div class="logo-text">MailTrack Pro</div>
+      <div class="logo-sub">ระบบจัดการจดหมาย</div>
+    </div>
+  </div>
+
+  <div class="sidebar-role-bar guard" id="sidebar-role-bar" style="margin-top:0.6rem">
+    <span id="sidebar-role-icon">🔒</span>
+    <span id="sidebar-role-label">เจ้าหน้าที่ รปภ.</span>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">หลัก</div>
+    <div class="nav-item active" onclick="navigate('dashboard')">
+      <span class="icon">📊</span> แดชบอร์ด
+    </div>
+    <div class="nav-item" onclick="navigate('receive')">
+      <span class="icon">📥</span> รับจดหมาย
+      <span class="badge" id="pending-badge">0</span>
+    </div>
+    <div class="nav-item" onclick="navigate('scan-qr')">
+      <span class="icon">📷</span> สแกน QR / รหัส
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">ประวัติ</div>
+    <div class="nav-item" onclick="navigate('history')">
+      <span class="icon">📋</span> ทะเบียนจดหมาย
+    </div>
+  </div>
+
+  <div class="nav-section admin-only" id="nav-section-admin">
+    <div class="nav-label">ผู้ดูแลระบบ</div>
+    <div class="nav-item" onclick="navigate('employees')">
+      <span class="icon">👥</span> จัดการพนักงาน
+    </div>
+    <div class="nav-item" onclick="navigate('settings')">
+      <span class="icon">⚙️</span> ตั้งค่าระบบ
+    </div>
+    <div class="nav-item" onclick="navigate('accounts')">
+      <span class="icon">🔑</span> บัญชีผู้ใช้
+    </div>
+    <div class="nav-item" onclick="navigate('permissions')">
+      <span class="icon">🛡️</span> สิทธิ์การเข้าถึง
+    </div>
+    <div class="nav-item" onclick="navigate('codeeditor')">
+      <span class="icon">💻</span> แก้ไขโค้ด
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div style="font-size:11px;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+      <span id="sidebar-username">—</span>
+    </div>
+    <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center" onclick="logout()">
+      🚪 ออกจากระบบ
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" title="เปิด/ปิดเมนู">☰</button>
+    <div>
+      <div class="topbar-title" id="page-title">แดชบอร์ด</div>
+      <div class="topbar-sub" id="page-sub">ภาพรวมระบบจดหมาย</div>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot"></div>
+      <div class="datetime-display" id="clock">--:--</div>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <div class="user-badge" onclick="currentUser&&currentUser.role==='admin'&&navigate('accounts')" id="topbar-user-badge">
+        <div class="user-avatar admin" id="topbar-avatar">A</div>
+        <div>
+          <div class="uname" id="topbar-uname">Admin</div>
+          <div class="urole" id="topbar-urole">ผู้ดูแลระบบ</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ─── DASHBOARD ─── -->
+    <div class="page active" id="page-dashboard">
+      <div class="section-title">ภาพรวมวันนี้</div>
+      <div class="section-sub">สถิติจดหมายและพัสดุทั้งหมด</div>
+      <div class="stats-row">
+        <div class="stat-card blue">
+          <div class="stat-label">รับเข้าวันนี้</div>
+          <div class="stat-value" id="stat-today">0</div>
+          <div class="stat-sub">รายการ</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-label">รอรับ (Pending)</div>
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-sub">รายการ</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">รับแล้ว</div>
+          <div class="stat-value" id="stat-received">0</div>
+          <div class="stat-sub">รายการ</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-label">พนักงานทั้งหมด</div>
+          <div class="stat-value" id="stat-emp">0</div>
+          <div class="stat-sub">คน</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>จดหมายรอรับล่าสุด</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>เลข EMS</th><th>ผู้รับ</th><th>แผนก</th><th>วันที่รับเข้า</th><th>สถานะ</th></tr></thead>
+            <tbody id="dashboard-table">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">ยังไม่มีข้อมูล</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── RECEIVE ─── -->
+    <div class="page" id="page-receive">
+      <div class="section-title">บันทึกรับจดหมาย / พัสดุ EMS</div>
+      <div class="section-sub">กรอกข้อมูลจดหมายที่ได้รับจากไปรษณีย์</div>
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:1.25rem;align-items:start" class="receive-grid">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>ข้อมูลจดหมาย</div>
+          <div class="form-group" style="margin-bottom:0.85rem">
+            <div class="form-label">เลขที่ EMS / บาร์โค้ด <span style="color:var(--red)">*</span></div>
+            <div style="display:flex;gap:7px">
+              <input id="ems-input" class="form-input ems-input" style="flex:1" placeholder="เช่น EG123456789TH" oninput="validateForm()">
+              <button class="btn btn-outline btn-sm" onclick="startBarcodeMode()" title="สแกนบาร์โค้ด" style="padding:9px 12px;font-size:16px">📷</button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0.85rem">
+            <div class="form-label">ผู้รับ (พนักงาน) <span style="color:var(--red)">*</span></div>
+            <div class="autocomplete-wrap">
+              <input id="emp-search" class="form-input" placeholder="พิมพ์ชื่อหรือรหัสพนักงาน..." autocomplete="off"
+                oninput="searchEmployee(this.value)" onblur="setTimeout(()=>closeDropdown(),200)">
+              <div class="dropdown" id="emp-dropdown"></div>
+            </div>
+            <div id="selected-emp" style="display:none"></div>
+          </div>
+          <div class="grid2" style="margin-bottom:0.85rem">
+            <div class="form-group">
+              <div class="form-label">ประเภทจดหมาย</div>
+              <select class="form-input" id="mail-type">
+                <option value="EMS">📦 EMS</option>
+                <option value="REGISTERED">📮 ลงทะเบียน</option>
+                <option value="PARCEL">📫 พัสดุ</option>
+                <option value="EXPRESS">🚀 Express</option>
+                <option value="OTHER">📁 อื่นๆ</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">หมายเหตุ</div>
+              <input class="form-input" id="mail-note" placeholder="(ถ้ามี)">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+            <button class="btn btn-outline" onclick="clearForm()">ล้างข้อมูล</button>
+            <button class="btn btn-primary" id="submit-btn" onclick="submitMail()" disabled>📨 บันทึกและแจ้งเตือน</button>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.85rem">
+          <div class="card">
+            <div class="card-title"><span class="dot"></span>วิธีใช้งาน</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+              <div style="display:flex;gap:9px;align-items:flex-start">
+                <span style="background:var(--accent);color:var(--bg);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">1</span>
+                สแกนบาร์โค้ดบนซองจดหมาย หรือพิมพ์เลข EMS
+              </div>
+              <div style="display:flex;gap:9px;align-items:flex-start">
+                <span style="background:var(--accent);color:var(--bg);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">2</span>
+                ค้นหาชื่อพนักงาน แล้วคลิกเลือก
+              </div>
+              <div style="display:flex;gap:9px;align-items:flex-start">
+                <span style="background:var(--accent);color:var(--bg);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">3</span>
+                กด "บันทึกและแจ้งเตือน" — ระบบส่งอีเมลให้พนักงานอัตโนมัติ ไม่ต้องกดส่งอีกครั้ง
+              </div>
+            </div>
+          </div>
+          <div class="card" id="barcode-scanner-card" style="display:none">
+            <div class="card-title"><span class="dot"></span>สแกนบาร์โค้ด</div>
+            <div class="scanner-area">
+              <div class="scan-line" id="scan-line"></div>
+              <video id="barcode-video" autoplay muted playsinline style="width:100%;height:200px;object-fit:cover;border-radius:8px;display:none;background:#000"></video>
+              <div id="barcode-idle" style="color:var(--muted);font-size:13px"><div style="font-size:36px;margin-bottom:7px">📸</div>กดปุ่มเพื่อเปิดกล้อง</div>
+            </div>
+            <button class="btn btn-scan" style="width:100%" id="barcode-btn" onclick="toggleBarcodeCamera()">📷 เปิดกล้องสแกนบาร์โค้ด</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SCAN QR / CODE ─── -->
+    <div class="page" id="page-scan-qr">
+      <div class="section-title">รับจดหมายด้วย QR หรือ รหัส</div>
+      <div class="section-sub">2 วิธี: พนักงานแสดง QR หรือแจ้งรหัส 6 หลักกับ รปภ.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem" class="receive-grid">
+        <!-- QR Scan -->
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>📷 วิธีที่ 1: สแกน QR Code</div>
+          <div class="scanner-area" style="min-height:250px">
+            <div class="scan-line" id="qr-scan-line"></div>
+            <video id="qr-video" autoplay muted playsinline style="width:100%;height:240px;object-fit:cover;border-radius:8px;display:none;background:#000"></video>
+            <div id="qr-idle" style="color:var(--muted)">
+              <div style="font-size:50px;margin-bottom:0.85rem">📷</div>
+              <div style="font-size:13px">กดปุ่มด้านล่างเพื่อเปิดกล้อง</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:5px">ชี้กล้องไปที่ QR Code ของพนักงาน</div>
+            </div>
+          </div>
+          <button class="btn btn-scan" style="width:100%;margin-top:0.65rem" id="qr-btn" onclick="toggleQRCamera()">📷 เปิดกล้องสแกน QR</button>
+        </div>
+        <!-- Code Entry -->
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>🔢 วิธีที่ 2: รับรหัสจากพนักงาน</div>
+          <div style="text-align:center;padding:1rem 0">
+            <div style="font-size:48px;margin-bottom:0.85rem">🔑</div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:1.25rem">พนักงานแจ้งรหัส 6 หลักจากอีเมล</div>
+            <input id="pickup-code-input" class="form-input ems-input" style="text-align:center;font-size:22px;letter-spacing:0.15em;max-width:220px;margin:0 auto 1rem" placeholder="000000" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
+            <br>
+            <button class="btn btn-primary" onclick="verifyPickupCode()" style="margin-top:0.5rem">✅ ยืนยันรับจดหมาย</button>
+          </div>
+          <div class="divider"></div>
+          <div id="code-result" style="min-height:60px;display:flex;align-items:center;justify-content:center">
+            <div style="text-align:center;color:var(--muted);font-size:12px">กรอกรหัสแล้วกดยืนยัน</div>
+          </div>
+        </div>
+      </div>
+      <!-- Result -->
+      <div class="card" style="margin-top:1.25rem">
+        <div class="card-title"><span class="dot"></span>ผลการตรวจสอบ</div>
+        <div id="qr-result" style="min-height:80px;display:flex;align-items:center;justify-content:center">
+          <div style="text-align:center;color:var(--muted)"><div style="font-size:40px;margin-bottom:0.65rem">🔍</div><div>รอสแกนหรือกรอกรหัส...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── HISTORY ─── -->
+    <div class="page" id="page-history">
+      <div class="section-title">ทะเบียนจดหมายทั้งหมด</div>
+      <div class="section-sub">บันทึกการรับเข้า-รับออกจดหมายทุกรายการ</div>
+      <div style="display:flex;gap:8px;margin-bottom:0.85rem;flex-wrap:wrap" class="history-filters">
+        <div class="search-bar" style="flex:1;min-width:180px;margin-bottom:0">
+          <span>🔍</span>
+          <input placeholder="ค้นหา EMS หรือชื่อผู้รับ..." oninput="filterHistory(this.value)">
+        </div>
+        <select class="form-input" id="filter-status" onchange="filterHistory()" style="width:150px">
+          <option value="">ทุกสถานะ</option>
+          <option value="pending">รอรับ</option>
+          <option value="received">รับแล้ว</option>
+        </select>
+        <button class="btn btn-outline btn-sm admin-only" onclick="exportHistory()">⬇️ Export</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>เลข EMS</th><th>ประเภท</th><th>ผู้รับ</th><th>แผนก</th><th>วันที่รับเข้า</th><th>วันที่รับออก</th><th>สถานะ</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="history-table">
+              <tr><td colspan="9"><div class="empty-state"><div class="icon">📭</div>ยังไม่มีข้อมูล</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── EMPLOYEES ─── -->
+    <div class="page" id="page-employees">
+      <div class="section-title">รายชื่อพนักงาน</div>
+      <div class="section-sub">จัดการข้อมูลพนักงานสำหรับระบบ</div>
+      <div style="display:flex;gap:8px;margin-bottom:0.85rem;flex-wrap:wrap">
+        <div class="search-bar" style="flex:1;min-width:180px;margin-bottom:0">
+          <span>🔍</span>
+          <input placeholder="ค้นหาชื่อ, รหัส, หรือแผนก..." oninput="filterEmployees(this.value)">
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="openAddEmpModal()">+ เพิ่มพนักงาน</button>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('excel-import').click()">📂 นำเข้า Excel</button>
+        <input type="file" id="excel-import" accept=".xlsx,.xls,.csv" style="display:none" onchange="importExcel(this)">
+      </div>
+      <div class="card" style="margin-bottom:0.85rem">
+        <div class="import-zone" onclick="document.getElementById('excel-import2').click()" id="drop-zone">
+          <div style="font-size:28px;margin-bottom:6px">📊</div>
+          <div style="font-weight:600;margin-bottom:3px;font-size:14px">ลากวางไฟล์ Excel หรือคลิกเพื่อเลือก</div>
+          <div style="font-size:11px;color:var(--muted)">รองรับ .xlsx .xls .csv — คอลัมน์: ชื่อ, รหัสพนักงาน, แผนก, อีเมล</div>
+          <input type="file" id="excel-import2" accept=".xlsx,.xls,.csv" style="display:none" onchange="importExcel(this)">
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>ชื่อ-นามสกุล</th><th>รหัสพนักงาน</th><th>แผนก</th><th>อีเมล</th><th>คงค้าง</th><th>จัดการ</th></tr></thead>
+            <tbody id="emp-table">
+              <tr><td colspan="7"><div class="empty-state"><div class="icon">👤</div>ยังไม่มีรายชื่อ</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SETTINGS ─── -->
+    <div class="page" id="page-settings">
+      <div class="section-title">ตั้งค่าระบบ</div>
+      <div class="section-sub">กำหนดค่าทั่วไปสำหรับระบบจดหมาย</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem" class="settings-grid">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>ข้อมูลบริษัท</div>
+          <div style="display:flex;flex-direction:column;gap:0.85rem">
+            <div class="form-group">
+              <div class="form-label">ชื่อบริษัท</div>
+              <input class="form-input" id="s-company" value="บริษัท ตัวอย่าง จำกัด" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">ชื่อรปภ. / เจ้าหน้าที่</div>
+              <input class="form-input" id="s-guard" value="เจ้าหน้าที่รักษาความปลอดภัย" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">ผู้ติดต่อ EMS</div>
+              <input class="form-input" id="s-contact-name" value="คุณศิรดา" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">เบอร์ต่อ EMS</div>
+              <input class="form-input" id="s-contact-ext" value="327" oninput="saveSettings()">
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Mailjet API (ส่งอีเมลอัตโนมัติ)</div>
+          <div style="display:flex;flex-direction:column;gap:0.85rem">
+            <div class="form-group">
+              <div class="form-label">Mailjet API Key</div>
+              <input class="form-input" type="password" id="s-mj-key" placeholder="ใส่ API Key" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">Mailjet Secret Key</div>
+              <input class="form-input" type="password" id="s-mj-secret" placeholder="ใส่ Secret Key" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">อีเมลผู้ส่ง</div>
+              <input class="form-input" id="s-sender" placeholder="noreply@company.com" oninput="saveSettings()">
+            </div>
+            <div class="form-group">
+              <div class="form-label">ชื่อผู้ส่ง</div>
+              <input class="form-input" id="s-sender-name" value="ป้อมรปภ. บริษัท" oninput="saveSettings()">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="font-size:12px;color:var(--muted)">💡 ถ้าไม่ตั้งค่า Mailjet ระบบจะเปิด email client แทน</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ACCOUNTS ─── -->
+    <div class="page" id="page-accounts">
+      <div class="section-title">จัดการบัญชีผู้ใช้งาน</div>
+      <div class="section-sub">กำหนดรหัสผ่านสำหรับ Admin และ รปภ.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem" class="accounts-grid">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>🛡️ บัญชี Admin</div>
+          <div style="display:flex;flex-direction:column;gap:0.85rem">
+            <div class="form-group"><div class="form-label">ชื่อผู้ใช้</div><input class="form-input" id="acc-admin-user" value="admin"></div>
+            <div class="form-group"><div class="form-label">ชื่อแสดง</div><input class="form-input" id="acc-admin-display" placeholder="เช่น คุณสมศรี ผู้จัดการ"></div>
+            <div class="form-group"><div class="form-label">รหัสผ่านใหม่</div><input class="form-input" id="acc-admin-pass" type="password" placeholder="เว้นว่างถ้าไม่เปลี่ยน"></div>
+            <div class="form-group"><div class="form-label">ยืนยันรหัสผ่าน</div><input class="form-input" id="acc-admin-pass2" type="password"></div>
+            <button class="btn btn-primary" onclick="saveAccount('admin')" style="align-self:flex-end">💾 บันทึก</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>🔒 บัญชี รปภ.</div>
+          <div style="display:flex;flex-direction:column;gap:0.85rem">
+            <div class="form-group"><div class="form-label">ชื่อผู้ใช้</div><input class="form-input" id="acc-guard-user" value="guard"></div>
+            <div class="form-group"><div class="form-label">ชื่อแสดง / ชื่อ รปภ.</div><input class="form-input" id="acc-guard-display" placeholder="เช่น นายสมชาย ยามเช้า"></div>
+            <div class="form-group"><div class="form-label">รหัสผ่านใหม่</div><input class="form-input" id="acc-guard-pass" type="password" placeholder="เว้นว่างถ้าไม่เปลี่ยน"></div>
+            <div class="form-group"><div class="form-label">ยืนยันรหัสผ่าน</div><input class="form-input" id="acc-guard-pass2" type="password"></div>
+            <button class="btn btn-primary" onclick="saveAccount('guard')" style="align-self:flex-end">💾 บันทึก</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PERMISSIONS ─── -->
+    <div class="page" id="page-permissions">
+      <div class="section-title">สิทธิ์การเข้าถึง</div>
+      <div class="section-sub">กำหนดสิทธิ์สำหรับ รปภ. และ พนักงาน (ดูสาธารณะ)</div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>ตารางสิทธิ์</div>
+        <div class="table-wrap">
+          <table id="perm-table">
+            <thead><tr><th>ฟีเจอร์</th><th>🛡️ Admin</th><th>🔒 รปภ.</th><th>👤 พนักงาน (สาธารณะ)</th></tr></thead>
+            <tbody id="perm-tbody"></tbody>
+          </table>
+        </div>
+        <div class="divider"></div>
+        <button class="btn btn-primary" onclick="savePermissions()">💾 บันทึกสิทธิ์</button>
+        <span style="font-size:12px;color:var(--muted);margin-left:10px">คลิก ✅/❌ เพื่อเปลี่ยนสิทธิ์</span>
+      </div>
+    </div>
+
+    <!-- ─── CODE EDITOR ─── -->
+    <div class="page" id="page-codeeditor">
+      <div class="section-title">แก้ไขโค้ดระบบ</div>
+      <div class="section-sub">ดูและแก้ไข HTML ของระบบ — ต้องยืนยันรหัสผ่าน Admin ก่อน</div>
+      <div id="code-locked" class="card" style="max-width:400px">
+        <div class="card-title"><span class="dot"></span>🔐 ยืนยันตัวตน</div>
+        <div class="form-group" style="margin-bottom:0.85rem">
+          <div class="form-label">รหัสผ่าน Admin</div>
+          <input class="form-input" type="password" id="code-auth-pass" placeholder="กรอกรหัสผ่าน Admin" onkeydown="if(event.key==='Enter')unlockCodeEditor()">
+        </div>
+        <button class="btn btn-primary" onclick="unlockCodeEditor()">🔓 ปลดล็อค</button>
+      </div>
+      <div id="code-unlocked" style="display:none">
+        <div class="code-editor-wrap">
+          <div class="code-editor-toolbar">
+            <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+            <span style="font-size:12px;color:#8b949e;margin-left:8px">mailtrack-pro.html</span>
+            <span style="margin-left:auto;font-size:11px;color:#8b949e" id="code-char-count"></span>
+          </div>
+          <textarea id="code-textarea" spellcheck="false" oninput="updateCodeCount()"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:0.85rem;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="saveCode()">💾 บันทึกและรีโหลด</button>
+          <button class="btn btn-outline" onclick="copyCode()">📋 คัดลอกโค้ด</button>
+          <button class="btn btn-outline" onclick="downloadCode()">⬇️ ดาวน์โหลด</button>
+          <button class="btn btn-danger btn-sm" onclick="lockCodeEditor()" style="margin-left:auto">🔒 ล็อค</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODAL: Add Employee -->
+<div class="modal-overlay" id="emp-modal">
+  <div class="modal">
+    <div class="modal-title">➕ เพิ่มพนักงาน</div>
+    <button class="modal-close" onclick="closeModal('emp-modal')">✕</button>
+    <div style="display:flex;flex-direction:column;gap:0.85rem">
+      <div class="form-group"><div class="form-label">ชื่อ-นามสกุล *</div><input class="form-input" id="new-emp-name" placeholder="เช่น นายสมชาย ใจดี"></div>
+      <div class="grid2">
+        <div class="form-group"><div class="form-label">รหัสพนักงาน</div><input class="form-input" id="new-emp-id" placeholder="EMP001"></div>
+        <div class="form-group"><div class="form-label">แผนก</div><input class="form-input" id="new-emp-dept" placeholder="IT / HR ..."></div>
+      </div>
+      <div class="form-group"><div class="form-label">อีเมล *</div><input class="form-input" id="new-emp-email" placeholder="somchai@company.com" type="email"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:0.25rem">
+        <button class="btn btn-outline" onclick="closeModal('emp-modal')">ยกเลิก</button>
+        <button class="btn btn-primary" onclick="addEmployee()">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Mail Detail -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title">📬 รายละเอียดจดหมาย</div>
+    <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<!-- MODAL: Delete Confirm -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title" style="color:var(--red)">⚠️ ยืนยันการลบ</div>
+    <button class="modal-close" onclick="closeModal('delete-modal')">✕</button>
+    <div id="delete-info" style="font-size:14px;margin-bottom:1.1rem;color:var(--muted)"></div>
+    <div style="background:rgba(239,35,60,0.08);border:1px solid rgba(239,35,60,0.2);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--red);margin-bottom:1rem">
+      ⚠️ การลบไม่สามารถกู้คืนได้ กรุณาตรวจสอบก่อนยืนยัน
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-outline" onclick="closeModal('delete-modal')">ยกเลิก</button>
+      <button class="btn btn-danger" id="delete-confirm-btn">🗑 ยืนยันลบ</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Save Code Confirm -->
+<div class="modal-overlay" id="save-code-modal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">💾 ยืนยันบันทึกโค้ด</div>
+    <button class="modal-close" onclick="closeModal('save-code-modal')">✕</button>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:1rem">ยืนยันรหัสผ่าน Admin เพื่อบันทึกการเปลี่ยนแปลงโค้ด</div>
+    <div class="form-group" style="margin-bottom:1rem">
+      <div class="form-label">รหัสผ่าน Admin</div>
+      <input class="form-input" type="password" id="save-code-pass" placeholder="กรอกรหัสผ่าน Admin" onkeydown="if(event.key==='Enter')confirmSaveCode()">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-outline" onclick="closeModal('save-code-modal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="confirmSaveCode()">✅ ยืนยันบันทึก</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script>
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let currentUser = null;
+let selectedLoginRole = 'admin';
+let selectedEmployee = null;
+let qrStream = null, barcodeStream = null;
+let qrScanActive = false, barcodeScanActive = false;
+let qrScanInterval = null, barcodeScanInterval = null;
+
+let employees = JSON.parse(localStorage.getItem('mt_employees') || '[]');
+let mails = JSON.parse(localStorage.getItem('mt_mails') || '[]');
+let settings = JSON.parse(localStorage.getItem('mt_settings') || '{}');
+
+let permissions = JSON.parse(localStorage.getItem('mt_permissions') || JSON.stringify({
+  dashboard: { admin:true, guard:true, public:false },
+  receive: { admin:true, guard:true, public:false },
+  'scan-qr': { admin:true, guard:true, public:false },
+  history: { admin:true, guard:true, public:false },
+  employees: { admin:true, guard:false, public:false },
+  settings: { admin:true, guard:false, public:false },
+  accounts: { admin:true, guard:false, public:false },
+  permissions: { admin:true, guard:false, public:false },
+  codeeditor: { admin:true, guard:false, public:false },
+}));
+
+const PERM_LABELS = {
+  dashboard:'แดชบอร์ด', receive:'บันทึกรับจดหมาย', 'scan-qr':'สแกน QR / รหัส',
+  history:'ทะเบียนจดหมาย', employees:'จัดการพนักงาน', settings:'ตั้งค่าระบบ',
+  accounts:'บัญชีผู้ใช้', permissions:'สิทธิ์การเข้าถึง', codeeditor:'แก้ไขโค้ด',
+};
+
+// ═══════════════════════════════════════════
+//  THEME
+// ═══════════════════════════════════════════
+function initTheme() {
+  const saved = localStorage.getItem('mt_theme') || 'dark';
+  document.body.setAttribute('data-theme', saved);
+  updateThemeButtons(saved);
+}
+function toggleTheme() {
+  const cur = document.body.getAttribute('data-theme') || 'dark';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', next);
+  localStorage.setItem('mt_theme', next);
+  updateThemeButtons(next);
+}
+function updateThemeButtons(theme) {
+  const isDark = theme === 'dark';
+  const icon = isDark ? '☀️' : '🌙';
+  const label = isDark ? 'โหมดสว่าง' : 'โหมดมืด';
+  const ti = document.getElementById('theme-icon');
+  const li = document.getElementById('login-theme-icon');
+  const ll = document.getElementById('login-theme-label');
+  if (ti) ti.textContent = icon;
+  if (li) li.textContent = icon;
+  if (ll) ll.textContent = label;
+}
+initTheme();
+
+// ═══════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════
+function getAccounts() {
+  return JSON.parse(localStorage.getItem('mt_accounts') || JSON.stringify({
+    admin: { username:'admin', password:'admin1234', displayName:'ผู้ดูแลระบบ', role:'admin' },
+    guard: { username:'guard', password:'guard1234', displayName:'เจ้าหน้าที่ รปภ.', role:'guard' },
+  }));
+}
+
+function selectRole(role) {
+  selectedLoginRole = role;
+  ['admin','guard'].forEach(r => document.getElementById('tab-'+r).classList.toggle('active', r===role));
+  document.getElementById('tab-empview').classList.remove('active');
+  document.getElementById('login-title').textContent = role==='admin' ? '🛡️ เข้าสู่ระบบ — ผู้ดูแล' : '🔒 เข้าสู่ระบบ — รปภ.';
+  document.getElementById('login-error').classList.remove('show');
+  const accs = getAccounts();
+  document.getElementById('login-user').value = accs[role]?.username || '';
+  document.getElementById('login-pass').value = '';
+}
+
+function togglePw() {
+  const inp = document.getElementById('login-pass');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const accs = getAccounts();
+  const matched = Object.values(accs).find(a => a.username===user && a.password===pass && a.role===selectedLoginRole);
+  if (!matched) { document.getElementById('login-error').classList.add('show'); document.getElementById('login-pass').value=''; return; }
+  currentUser = matched;
+  document.getElementById('login-screen').classList.add('hidden');
+  applyRoleUI();
+  init();
+}
+
+function logout() {
+  if (!confirm('ต้องการออกจากระบบ?')) return;
+  currentUser = null;
+  stopAllCameras();
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').classList.remove('show');
+  selectRole('admin');
+}
+
+function applyRoleUI() {
+  const isAdmin = currentUser.role === 'admin';
+  const bar = document.getElementById('sidebar-role-bar');
+  bar.className = 'sidebar-role-bar ' + currentUser.role;
+  document.getElementById('sidebar-role-icon').textContent = isAdmin ? '🛡️' : '🔒';
+  document.getElementById('sidebar-role-label').textContent = isAdmin ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่ รปภ.';
+  const av = document.getElementById('topbar-avatar');
+  av.className = 'user-avatar ' + currentUser.role;
+  av.textContent = (currentUser.displayName||currentUser.username).charAt(0).toUpperCase();
+  document.getElementById('topbar-uname').textContent = currentUser.displayName || currentUser.username;
+  document.getElementById('topbar-urole').textContent = isAdmin ? 'ผู้ดูแลระบบ' : 'เจ้าหน้าที่ รปภ.';
+  document.getElementById('sidebar-username').textContent = currentUser.displayName || currentUser.username;
+  document.querySelectorAll('.admin-only').forEach(el => { el.style.display = isAdmin ? '' : 'none'; });
+  if (isAdmin) {
+    const accs = getAccounts();
+    document.getElementById('acc-admin-user').value = accs.admin.username;
+    document.getElementById('acc-admin-display').value = accs.admin.displayName||'';
+    document.getElementById('acc-guard-user').value = accs.guard.username;
+    document.getElementById('acc-guard-display').value = accs.guard.displayName||'';
+  }
+  renderPermissionsTable();
+}
+
+function saveAccount(role) {
+  const accs = getAccounts();
+  const newUser = document.getElementById('acc-'+role+'-user').value.trim();
+  const newDisplay = document.getElementById('acc-'+role+'-display').value.trim();
+  const newPass = document.getElementById('acc-'+role+'-pass').value;
+  const newPass2 = document.getElementById('acc-'+role+'-pass2').value;
+  if (!newUser) { showToast('กรุณากรอกชื่อผู้ใช้','error'); return; }
+  if (newPass && newPass !== newPass2) { showToast('รหัสผ่านไม่ตรงกัน','error'); return; }
+  if (newPass && newPass.length < 6) { showToast('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร','error'); return; }
+  accs[role].username = newUser;
+  if (newDisplay) accs[role].displayName = newDisplay;
+  if (newPass) accs[role].password = newPass;
+  localStorage.setItem('mt_accounts', JSON.stringify(accs));
+  document.getElementById('acc-'+role+'-pass').value='';
+  document.getElementById('acc-'+role+'-pass2').value='';
+  showToast('✅ บันทึกบัญชีผู้ใช้แล้ว','success');
+}
+
+// ═══════════════════════════════════════════
+//  EMPLOYEE PUBLIC VIEW
+// ═══════════════════════════════════════════
+function openEmpView() {
+  document.getElementById('emp-view-screen').classList.add('active');
+  renderEmpView('');
+}
+function closeEmpView() { document.getElementById('emp-view-screen').classList.remove('active'); }
+function renderEmpView(q) {
+  let data = mails;
+  if (q) data = data.filter(m => m.ems.toLowerCase().includes(q.toLowerCase()) || m.employeeName.toLowerCase().includes(q.toLowerCase()));
+  const tbody = document.getElementById('emp-view-table');
+  if (!data.length) { tbody.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">📭</div>ไม่พบข้อมูล</div></td></tr>'; return; }
+  tbody.innerHTML = data.map(m=>`<tr>
+    <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">${m.ems}</span></td>
+    <td style="font-size:12px">${m.mailType||'EMS'}</td>
+    <td>${m.employeeName}</td>
+    <td style="font-size:12px;color:var(--muted)">${m.employeeDept||'—'}</td>
+    <td style="font-size:12px;color:var(--muted)">${formatDate(m.receivedAt)}</td>
+    <td><span class="pill ${m.status}">${m.status==='pending'?'⏳ รอรับ':'✅ รับแล้ว'}</span></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+function init() {
+  loadSettings();
+  renderDashboard();
+  renderHistory();
+  renderEmployees();
+  updateStats();
+  startClock();
+  setupDragDrop();
+  if (!employees.length) addSampleEmployees();
+  renderPermissionsTable();
+}
+
+function addSampleEmployees() {
+  employees = [
+    { id:'EMP001', name:'นายสมชาย ใจดี', dept:'ฝ่าย IT', email:'somchai@example.com' },
+    { id:'EMP002', name:'นางสาวสุดา รักดี', dept:'ฝ่าย HR', email:'suda@example.com' },
+    { id:'EMP003', name:'นายวิทยา มั่นคง', dept:'ฝ่ายบัญชี', email:'wittaya@example.com' },
+    { id:'EMP004', name:'นางสาวนภา สดใส', dept:'ฝ่ายการตลาด', email:'napa@example.com' },
+  ];
+  saveEmployees(); renderEmployees(); updateStats();
+}
+
+function saveEmployees() { localStorage.setItem('mt_employees', JSON.stringify(employees)); }
+function saveMails() { localStorage.setItem('mt_mails', JSON.stringify(mails)); }
+function saveSettings() {
+  settings = {
+    company: document.getElementById('s-company').value,
+    guard: document.getElementById('s-guard').value,
+    contactName: document.getElementById('s-contact-name').value,
+    contactExt: document.getElementById('s-contact-ext').value,
+    mjKey: document.getElementById('s-mj-key').value,
+    mjSecret: document.getElementById('s-mj-secret').value,
+    sender: document.getElementById('s-sender').value,
+    senderName: document.getElementById('s-sender-name').value,
+  };
+  localStorage.setItem('mt_settings', JSON.stringify(settings));
+}
+function loadSettings() {
+  if (settings.company) document.getElementById('s-company').value = settings.company;
+  if (settings.guard) document.getElementById('s-guard').value = settings.guard;
+  if (settings.contactName) document.getElementById('s-contact-name').value = settings.contactName;
+  if (settings.contactExt) document.getElementById('s-contact-ext').value = settings.contactExt;
+  if (settings.sender) document.getElementById('s-sender').value = settings.sender;
+  if (settings.senderName) document.getElementById('s-sender-name').value = settings.senderName;
+}
+
+// ═══════════════════════════════════════════
+//  SIDEBAR TOGGLE
+// ═══════════════════════════════════════════
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+// ═══════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════
+const pageTitles = {
+  dashboard:['แดชบอร์ด','ภาพรวมระบบจดหมาย'],
+  receive:['บันทึกรับจดหมาย','รับจดหมาย / พัสดุ EMS จากไปรษณีย์'],
+  'scan-qr':['สแกน QR / รหัส','ยืนยันการรับจดหมายของพนักงาน'],
+  history:['ทะเบียนจดหมาย','ประวัติจดหมายเข้า-ออกทั้งหมด'],
+  employees:['รายชื่อพนักงาน','จัดการข้อมูลพนักงาน'],
+  settings:['ตั้งค่าระบบ','กำหนดค่าทั่วไป'],
+  accounts:['จัดการบัญชีผู้ใช้','กำหนดรหัสผ่านและสิทธิ์'],
+  permissions:['สิทธิ์การเข้าถึง','กำหนดสิทธิ์สำหรับแต่ละ Role'],
+  codeeditor:['แก้ไขโค้ดระบบ','ดูและแก้ไข HTML ของระบบ'],
+};
+
+function navigate(page) {
+  if (!currentUser) return;
+  const perm = permissions[page];
+  const role = currentUser.role;
+  if (perm && !perm[role]) {
+    showToast('❌ คุณไม่มีสิทธิ์เข้าถึงหน้านี้','error'); return;
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) pageEl.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+page+"'")) n.classList.add('active');
+  });
+  const t = pageTitles[page] || [page,''];
+  document.getElementById('page-title').textContent = t[0];
+  document.getElementById('page-sub').textContent = t[1];
+  if (page==='dashboard') renderDashboard();
+  if (page==='history') renderHistory();
+  if (page==='employees') renderEmployees();
+  if (page==='permissions') renderPermissionsTable();
+  if (page==='codeeditor') loadCodeEditor();
+  stopAllCameras();
+  // Auto-close sidebar on mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.add('collapsed');
+  }
+}
+
+// ═══════════════════════════════════════════
+//  CLOCK
+// ═══════════════════════════════════════════
+function startClock() {
+  function tick() {
+    const now = new Date();
+    const d = now.toLocaleDateString('th-TH',{month:'short',day:'numeric'});
+    const t = now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('clock').textContent = d + ' ' + t;
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// ═══════════════════════════════════════════
+//  STATS
+// ═══════════════════════════════════════════
+function updateStats() {
+  const today = new Date().toDateString();
+  document.getElementById('stat-today').textContent = mails.filter(m=>new Date(m.receivedAt).toDateString()===today).length;
+  const p = mails.filter(m=>m.status==='pending').length;
+  document.getElementById('stat-pending').textContent = p;
+  document.getElementById('stat-received').textContent = mails.filter(m=>m.status==='received').length;
+  document.getElementById('stat-emp').textContent = employees.length;
+  document.getElementById('pending-badge').textContent = p;
+}
+
+// ═══════════════════════════════════════════
+//  AUTOCOMPLETE
+// ═══════════════════════════════════════════
+function searchEmployee(q) {
+  selectedEmployee = null;
+  document.getElementById('selected-emp').style.display='none';
+  document.getElementById('submit-btn').disabled=true;
+  const dd = document.getElementById('emp-dropdown');
+  if (!q) { dd.classList.remove('open'); return; }
+  const results = employees.filter(e =>
+    e.name.toLowerCase().includes(q.toLowerCase()) ||
+    (e.id && e.id.toLowerCase().includes(q.toLowerCase())) ||
+    (e.dept && e.dept.toLowerCase().includes(q.toLowerCase()))
+  ).slice(0,8);
+  if (!results.length) { dd.innerHTML='<div class="dropdown-item" style="color:var(--muted)">ไม่พบพนักงาน</div>'; dd.classList.add('open'); return; }
+  dd.innerHTML = results.map(e=>{
+    const initials = e.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+    const hi = txt => txt.replace(new RegExp(q,'gi'),m=>`<span class="search-highlight">${m}</span>`);
+    return `<div class="dropdown-item" onclick="selectEmployee('${e.id||e.email}')">
+      <div class="avatar">${initials}</div>
+      <div><div class="name">${hi(e.name)}</div><div class="dept">${e.dept||''} ${e.id?'· '+e.id:''}</div><div class="emp-email">${e.email}</div></div>
+    </div>`;
+  }).join('');
+  dd.classList.add('open');
+}
+
+function selectEmployee(key) {
+  selectedEmployee = employees.find(e=>e.id===key||e.email===key);
+  if (!selectedEmployee) return;
+  document.getElementById('emp-search').value = selectedEmployee.name;
+  closeDropdown();
+  const initials = selectedEmployee.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  document.getElementById('selected-emp').innerHTML = `
+    <div class="selected-emp">
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--bg3));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent3);flex-shrink:0">${initials}</div>
+      <div><div class="name">${selectedEmployee.name}</div><div style="display:flex;gap:8px"><div class="dept">${selectedEmployee.dept||''}</div><div class="email">${selectedEmployee.email}</div></div></div>
+      <button class="btn btn-outline btn-sm" style="margin-left:auto;padding:3px 9px" onclick="clearSelectedEmp()">✕</button>
+    </div>`;
+  document.getElementById('selected-emp').style.display='block';
+  validateForm();
+}
+function clearSelectedEmp() { selectedEmployee=null; document.getElementById('emp-search').value=''; document.getElementById('selected-emp').style.display='none'; validateForm(); }
+function closeDropdown() { document.getElementById('emp-dropdown').classList.remove('open'); }
+function validateForm() {
+  const ems = document.getElementById('ems-input').value.trim();
+  document.getElementById('submit-btn').disabled = !(ems && selectedEmployee);
+}
+function clearForm() {
+  document.getElementById('ems-input').value='';
+  document.getElementById('emp-search').value='';
+  document.getElementById('mail-note').value='';
+  selectedEmployee=null;
+  document.getElementById('selected-emp').style.display='none';
+  document.getElementById('submit-btn').disabled=true;
+}
+
+// ═══════════════════════════════════════════
+//  PICKUP CODE GENERATION
+// ═══════════════════════════════════════════
+function generatePickupCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// ═══════════════════════════════════════════
+//  SUBMIT MAIL
+// ═══════════════════════════════════════════
+async function submitMail() {
+  const ems = document.getElementById('ems-input').value.trim().toUpperCase();
+  const mailType = document.getElementById('mail-type').value;
+  const note = document.getElementById('mail-note').value.trim();
+  if (!ems || !selectedEmployee) { showToast('กรุณากรอกข้อมูลให้ครบ','error'); return; }
+  if (mails.find(m=>m.ems===ems && m.status==='pending')) { showToast('เลข EMS นี้มีในระบบแล้ว (รอรับ)','error'); return; }
+  const pickupCode = generatePickupCode();
+  const mail = {
+    id: Date.now().toString(),
+    ems, mailType, note,
+    employeeId: selectedEmployee.id||'',
+    employeeName: selectedEmployee.name,
+    employeeEmail: selectedEmployee.email,
+    employeeDept: selectedEmployee.dept||'',
+    receivedAt: new Date().toISOString(),
+    pickedUpAt: null,
+    status: 'pending',
+    pickupCode,
+  };
+  mails.unshift(mail);
+  saveMails(); updateStats();
+  document.getElementById('submit-btn').disabled=true;
+  document.getElementById('submit-btn').textContent='⏳ กำลังส่ง...';
+  await sendNotification(mail);
+  document.getElementById('submit-btn').textContent='📨 บันทึกและแจ้งเตือน';
+  document.getElementById('submit-btn').disabled=true;
+  clearForm();
+  renderDashboard();
+}
+
+// ═══════════════════════════════════════════
+//  EMAIL / NOTIFICATION — AUTO, no extra click
+// ═══════════════════════════════════════════
+function generateQRData(mailId, ems) { return `MAILTRACK:${mailId}:${ems}`; }
+
+async function sendNotification(mail) {
+  const qrData = generateQRData(mail.id, mail.ems);
+  const company = settings.company || 'บริษัท';
+  const contactName = settings.contactName || 'คุณศิรดา';
+  const contactExt = settings.contactExt || '327';
+  // QR link that opens QR code image
+  const qrLink = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=250x250`;
+
+  const emailBody = `เรียน คุณ${mail.employeeName}
+
+พัสดุ (${mail.mailType}) ของท่าน หมายเลข ${mail.ems} ได้มาถึงแล้ว
+
+กรุณาติดต่อรับได้ที่ป้อมรปภ. หน้า${company}
+
+วิธีรับจดหมาย (เลือกอย่างใดอย่างหนึ่ง):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. แสดง QR Code: เปิดลิงก์ด้านล่างเพื่อแสดง QR Code ให้เจ้าหน้าที่สแกน
+   ${qrLink}
+
+2. แจ้งรหัส: แจ้งรหัส 6 หลักนี้กับเจ้าหน้าที่ รปภ.
+   รหัสรับพัสดุ: ${mail.pickupCode}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+หากมีข้อสอบถาม โปรดติดต่อ ${contactName} เบอร์ต่อ ${contactExt}
+
+ขอแสดงความนับถือ
+ป้อมรปภ. ${company}`;
+
+  const htmlBody = buildEmailHTML(mail, qrData, qrLink, emailBody);
+
+  // Try Mailjet FIRST — automatic, no user action needed
+  if (settings.mjKey && settings.mjSecret && settings.sender) {
+    try {
+      const resp = await fetch('https://api.mailjet.com/v3.1/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(settings.mjKey + ':' + settings.mjSecret),
+        },
+        body: JSON.stringify({
+          Messages: [{
+            From: { Email: settings.sender, Name: settings.senderName || 'ป้อมรปภ.' },
+            To: [{ Email: mail.employeeEmail, Name: mail.employeeName }],
+            Subject: `[แจ้งรับพัสดุ] ${mail.mailType} ${mail.ems} ถึงแล้ว — รหัส ${mail.pickupCode}`,
+            HTMLPart: htmlBody,
+            TextPart: emailBody,
+          }]
+        })
+      });
+      const result = await resp.json();
+      if (resp.ok && result.Messages?.[0]?.Status === 'success') {
+        showToast(`✅ ส่งแจ้งเตือนไปยัง ${mail.employeeEmail} แล้ว`, 'success');
+        return;
+      }
+    } catch(e) { console.warn('Mailjet error:', e); }
+  }
+
+  // Fallback: mailto (pre-filled, user just clicks send)
+  const subject = encodeURIComponent(`[แจ้งรับพัสดุ] ${mail.mailType} ${mail.ems} ถึงแล้ว — รหัส ${mail.pickupCode}`);
+  const body = encodeURIComponent(emailBody);
+  window.open(`mailto:${mail.employeeEmail}?subject=${subject}&body=${body}`, '_blank');
+  showToast(`📧 เปิด email client — กดส่งในหน้าอีเมลได้เลย (ตั้งค่า Mailjet เพื่อส่งอัตโนมัติ)`, 'success');
+}
+
+function buildEmailHTML(mail, qrData, qrLink, text) {
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f4f6f8;font-family:sans-serif">
+<div style="max-width:520px;margin:24px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1)">
+  <div style="background:linear-gradient(135deg,#0a1628,#1a3a5c);padding:24px;text-align:center">
+    <div style="font-size:32px;margin-bottom:8px">📬</div>
+    <h2 style="margin:0;color:#00b4d8;font-size:18px">แจ้งรับพัสดุ ${mail.mailType}</h2>
+    <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:4px">${settings.company||'บริษัท'}</div>
+  </div>
+  <div style="padding:24px">
+    <div style="background:#f8f9fb;border-radius:8px;padding:16px;margin-bottom:20px">
+      <div style="font-size:12px;color:#888;margin-bottom:4px">หมายเลขพัสดุ</div>
+      <div style="font-family:monospace;font-size:20px;font-weight:700;color:#0a1628;letter-spacing:0.05em">${mail.ems}</div>
+    </div>
+    <p style="color:#444;line-height:1.8;font-size:14px">เรียน คุณ<strong>${mail.employeeName}</strong><br>
+    พัสดุของท่านมาถึงแล้ว กรุณาติดต่อรับที่ป้อมรปภ. หน้า${settings.company||'บริษัท'}</p>
+    
+    <div style="border:2px solid #e0e6ed;border-radius:12px;padding:20px;margin:20px 0;text-align:center">
+      <div style="font-weight:700;font-size:15px;margin-bottom:4px;color:#0a1628">🔑 วิธีที่ 1: แจ้งรหัสนี้กับ รปภ.</div>
+      <div style="font-size:36px;font-weight:700;letter-spacing:0.15em;color:#00b4d8;font-family:monospace;margin:12px 0">${mail.pickupCode}</div>
+      <div style="font-size:12px;color:#888">รหัส 6 หลัก สำหรับรับพัสดุ</div>
+    </div>
+    
+    <div style="border:2px solid #e0e6ed;border-radius:12px;padding:20px;margin:20px 0;text-align:center">
+      <div style="font-weight:700;font-size:15px;margin-bottom:12px;color:#0a1628">📱 วิธีที่ 2: แสดง QR Code ให้ รปภ. สแกน</div>
+      <img src="${qrLink}" width="200" height="200" alt="QR Code" style="border:3px solid #00b4d8;border-radius:10px;display:block;margin:0 auto">
+      <div style="margin-top:12px">
+        <a href="${qrLink}" style="background:#00b4d8;color:#0a1628;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block">👉 คลิกเปิด QR Code</a>
+      </div>
+      <div style="font-size:11px;color:#aaa;margin-top:8px">${qrData}</div>
+    </div>
+    
+    <div style="font-size:12px;color:#888;margin-top:16px;padding-top:16px;border-top:1px solid #eee">
+      ติดต่อสอบถาม: ${settings.contactName||'เจ้าหน้าที่'} เบอร์ต่อ ${settings.contactExt||'—'}
+    </div>
+  </div>
+</div></body></html>`;
+}
+
+// ═══════════════════════════════════════════
+//  QR SCAN
+// ═══════════════════════════════════════════
+async function toggleQRCamera() {
+  if (qrScanActive) { stopQRCamera(); return; }
+  try {
+    qrStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' } });
+    const video = document.getElementById('qr-video');
+    video.srcObject = qrStream;
+    video.style.display='block';
+    document.getElementById('qr-idle').style.display='none';
+    document.getElementById('qr-scan-line').style.display='block';
+    document.getElementById('qr-btn').textContent='⏹ หยุดกล้อง';
+    qrScanActive=true;
+    qrScanInterval = setInterval(()=>scanQRFrame(video),250);
+  } catch(e) { showToast('ไม่สามารถเข้าถึงกล้องได้: '+e.message,'error'); }
+}
+
+function stopQRCamera() {
+  if (qrStream) { qrStream.getTracks().forEach(t=>t.stop()); qrStream=null; }
+  clearInterval(qrScanInterval); qrScanActive=false;
+  const video = document.getElementById('qr-video');
+  if (video) video.style.display='none';
+  const idle = document.getElementById('qr-idle');
+  if (idle) idle.style.display='block';
+  const line = document.getElementById('qr-scan-line');
+  if (line) line.style.display='none';
+  const btn = document.getElementById('qr-btn');
+  if (btn) btn.textContent='📷 เปิดกล้องสแกน QR';
+}
+
+function scanQRFrame(video) {
+  if (!video.videoWidth) return;
+  const canvas = document.createElement('canvas');
+  canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+  canvas.getContext('2d').drawImage(video,0,0);
+  const img = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);
+  const code = jsQR(img.data,img.width,img.height);
+  if (code) processQRResult(code.data);
+}
+
+function processQRResult(data) {
+  stopQRCamera();
+  if (!data.startsWith('MAILTRACK:')) { showQRResult(false,'QR Code ไม่ถูกต้อง',data,null); return; }
+  const parts = data.split(':');
+  const mailId = parts[1]; const ems = parts[2];
+  const mail = mails.find(m=>m.id===mailId||m.ems===ems);
+  if (!mail) { showQRResult(false,'ไม่พบจดหมายในระบบ',ems,null); return; }
+  if (mail.status==='received') { showQRResult(false,'จดหมายนี้รับไปแล้ว',ems,mail); return; }
+  mail.status='received'; mail.pickedUpAt=new Date().toISOString();
+  saveMails(); updateStats();
+  showQRResult(true,'ยืนยันการรับจดหมายสำเร็จ',ems,mail);
+}
+
+// ─── PICKUP CODE VERIFY ───
+function verifyPickupCode() {
+  const code = document.getElementById('pickup-code-input').value.trim();
+  if (!code || code.length !== 6) { showToast('กรุณากรอกรหัส 6 หลัก','error'); return; }
+  const mail = mails.find(m=>m.pickupCode===code && m.status==='pending');
+  const resultEl = document.getElementById('code-result');
+  if (!mail) {
+    const already = mails.find(m=>m.pickupCode===code);
+    if (already && already.status==='received') {
+      resultEl.innerHTML='<div style="color:var(--amber);font-size:13px;text-align:center">⚠️ รหัสนี้ถูกใช้แล้ว (จดหมายรับไปแล้ว)</div>';
+    } else {
+      resultEl.innerHTML='<div style="color:var(--red);font-size:13px;text-align:center">❌ ไม่พบรหัสนี้ในระบบ</div>';
+    }
+    showToast('❌ รหัสไม่ถูกต้องหรือไม่พบ','error'); return;
+  }
+  mail.status='received'; mail.pickedUpAt=new Date().toISOString();
+  saveMails(); updateStats();
+  resultEl.innerHTML=`<div style="text-align:center">
+    <div style="color:var(--green);font-size:15px;font-weight:700">✅ ยืนยันรับจดหมายสำเร็จ</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:5px">EMS: ${mail.ems}</div>
+    <div style="font-size:13px;color:var(--muted)">ผู้รับ: ${mail.employeeName}</div>
+  </div>`;
+  showQRResult(true,'ยืนยันการรับจดหมายสำเร็จ',mail.ems,mail);
+  document.getElementById('pickup-code-input').value='';
+  showToast('✅ บันทึกการรับจดหมายแล้ว','success');
+}
+
+function showQRResult(ok, msg, ems, mail) {
+  const div = document.getElementById('qr-result');
+  if (ok) {
+    div.innerHTML=`<div style="text-align:center">
+      <div style="font-size:56px;margin-bottom:0.85rem">✅</div>
+      <div style="color:var(--green);font-size:17px;font-weight:700;margin-bottom:0.35rem">${msg}</div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:0.85rem">EMS: ${ems}</div>
+      ${mail?`<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.85rem;text-align:left;font-size:13px">
+        <div style="margin-bottom:4px"><b>ผู้รับ:</b> ${mail.employeeName}</div>
+        <div style="margin-bottom:4px"><b>แผนก:</b> ${mail.employeeDept}</div>
+        <div><b>เวลารับ:</b> ${formatDate(mail.pickedUpAt)}</div>
+      </div>`:''}
+    </div>`;
+    showToast('✅ บันทึกการรับจดหมายแล้ว','success');
+  } else {
+    div.innerHTML=`<div style="text-align:center">
+      <div style="font-size:56px;margin-bottom:0.85rem">❌</div>
+      <div style="color:var(--red);font-size:15px;font-weight:700;margin-bottom:0.35rem">${msg}</div>
+      <div style="color:var(--muted);font-size:13px">${ems}</div>
+    </div>`;
+    showToast('❌ ' + msg,'error');
+  }
+}
+
+// ═══════════════════════════════════════════
+//  BARCODE SCANNER
+// ═══════════════════════════════════════════
+function startBarcodeMode() {
+  document.getElementById('barcode-scanner-card').style.display='block';
+  document.getElementById('barcode-scanner-card').scrollIntoView({behavior:'smooth'});
+}
+
+async function toggleBarcodeCamera() {
+  if (barcodeScanActive) { stopBarcodeCamera(); return; }
+  try {
+    barcodeStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' } });
+    const video = document.getElementById('barcode-video');
+    video.srcObject = barcodeStream; video.style.display='block';
+    document.getElementById('barcode-idle').style.display='none';
+    document.getElementById('scan-line').style.display='block';
+    document.getElementById('barcode-btn').textContent='⏹ หยุดกล้อง';
+    barcodeScanActive=true;
+    barcodeScanInterval = setInterval(()=>scanBarcodeFrame(video),300);
+  } catch(e) { showToast('ไม่สามารถเข้าถึงกล้องได้','error'); }
+}
+
+function stopBarcodeCamera() {
+  if (barcodeStream) { barcodeStream.getTracks().forEach(t=>t.stop()); barcodeStream=null; }
+  clearInterval(barcodeScanInterval); barcodeScanActive=false;
+  const v=document.getElementById('barcode-video'); if(v) v.style.display='none';
+  const i=document.getElementById('barcode-idle'); if(i) i.style.display='block';
+  const l=document.getElementById('scan-line'); if(l) l.style.display='none';
+  const b=document.getElementById('barcode-btn'); if(b) b.textContent='📷 เปิดกล้องสแกนบาร์โค้ด';
+}
+
+function scanBarcodeFrame(video) {
+  if (!video.videoWidth) return;
+  const canvas = document.createElement('canvas');
+  canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+  canvas.getContext('2d').drawImage(video,0,0);
+  const img = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height);
+  const code = jsQR(img.data,img.width,img.height);
+  if (code && code.data) {
+    stopBarcodeCamera();
+    document.getElementById('ems-input').value = code.data.toUpperCase();
+    validateForm();
+    showToast('✅ สแกนได้: ' + code.data,'success');
+  }
+}
+
+function stopAllCameras() { stopQRCamera(); stopBarcodeCamera(); }
+
+// ═══════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════
+function renderDashboard() {
+  updateStats();
+  const pending = mails.filter(m=>m.status==='pending').slice(0,10);
+  const tbody = document.getElementById('dashboard-table');
+  if (!pending.length) { tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">ไม่มีจดหมายรอรับ</td></tr>'; return; }
+  tbody.innerHTML = pending.map(m=>`<tr>
+    <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">${m.ems}</span></td>
+    <td style="font-size:13px">${m.employeeName}</td>
+    <td style="color:var(--muted);font-size:12px">${m.employeeDept}</td>
+    <td style="color:var(--muted);font-size:12px">${formatDate(m.receivedAt)}</td>
+    <td><span class="pill pending">⏳ รอรับ</span></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════
+//  HISTORY
+// ═══════════════════════════════════════════
+function renderHistory(filtered) {
+  const data = filtered !== undefined ? filtered : mails;
+  const tbody = document.getElementById('history-table');
+  if (!data.length) { tbody.innerHTML='<tr><td colspan="9"><div class="empty-state"><div class="icon">📭</div>ไม่มีข้อมูล</div></td></tr>'; return; }
+  tbody.innerHTML = data.map((m,i)=>`<tr>
+    <td style="color:var(--muted);font-size:11px">${i+1}</td>
+    <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">${m.ems}</span></td>
+    <td style="font-size:11px">${m.mailType||'EMS'}</td>
+    <td style="font-size:13px">${m.employeeName}</td>
+    <td style="color:var(--muted);font-size:11px">${m.employeeDept}</td>
+    <td style="font-size:11px;color:var(--muted)">${formatDate(m.receivedAt)}</td>
+    <td style="font-size:11px;color:var(--muted)">${m.pickedUpAt?formatDate(m.pickedUpAt):'—'}</td>
+    <td><span class="pill ${m.status}">${m.status==='pending'?'⏳ รอรับ':'✅ รับแล้ว'}</span></td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-outline btn-sm" onclick="showDetail('${m.id}')" style="margin-right:3px">🔍</button>
+      ${m.status==='pending'?`<button class="btn btn-green btn-sm" onclick="markReceived('${m.id}')" style="margin-right:3px" title="บันทึกรับ">✅</button>`:''}
+      <button class="btn btn-danger btn-sm" onclick="confirmDeleteMail('${m.id}')" title="ลบ">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+
+function filterHistory(q) {
+  const status = document.getElementById('filter-status').value;
+  let data = mails;
+  if (q) data = data.filter(m=>m.ems.toLowerCase().includes(q.toLowerCase())||m.employeeName.toLowerCase().includes(q.toLowerCase()));
+  if (status) data = data.filter(m=>m.status===status);
+  renderHistory(data);
+}
+
+function markReceived(id) {
+  const m = mails.find(m=>m.id===id);
+  if (m) { m.status='received'; m.pickedUpAt=new Date().toISOString(); saveMails(); updateStats(); renderHistory(); renderDashboard(); showToast('✅ บันทึกการรับจดหมายแล้ว','success'); }
+}
+
+// ─── DELETE MAIL (2-step confirm) ───
+let pendingDeleteId = null;
+
+function confirmDeleteMail(id) {
+  const mail = mails.find(m=>m.id===id);
+  if (!mail) return;
+  pendingDeleteId = id;
+  document.getElementById('delete-info').innerHTML = `
+    <div style="margin-bottom:8px"><b>เลข EMS:</b> <span style="font-family:monospace;color:var(--accent)">${mail.ems}</span></div>
+    <div style="margin-bottom:4px"><b>ผู้รับ:</b> ${mail.employeeName}</div>
+    <div style="margin-bottom:4px"><b>แผนก:</b> ${mail.employeeDept||'—'}</div>
+    <div><b>สถานะ:</b> ${mail.status==='pending'?'⏳ รอรับ':'✅ รับแล้ว'}</div>`;
+  document.getElementById('delete-confirm-btn').onclick = executeDeletion;
+  openModal('delete-modal');
+}
+
+function executeDeletion() {
+  if (!pendingDeleteId) return;
+  mails = mails.filter(m=>m.id!==pendingDeleteId);
+  pendingDeleteId = null;
+  saveMails(); updateStats(); renderHistory(); renderDashboard();
+  closeModal('delete-modal');
+  showToast('🗑 ลบจดหมายแล้ว','success');
+}
+
+function showDetail(id) {
+  const m = mails.find(m=>m.id===id); if (!m) return;
+  document.getElementById('detail-content').innerHTML=`
+    <table style="width:100%;font-size:13px;border-collapse:collapse">
+      <tr><td style="padding:7px 0;color:var(--muted);width:40%">เลข EMS</td><td style="font-family:'IBM Plex Mono',monospace;color:var(--accent)">${m.ems}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">ประเภท</td><td>${m.mailType}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">ผู้รับ</td><td>${m.employeeName}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">แผนก</td><td>${m.employeeDept}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">อีเมล</td><td style="color:var(--accent)">${m.employeeEmail}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">รหัสรับพัสดุ</td><td style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent)">${m.pickupCode||'—'}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">วันที่รับเข้า</td><td>${formatDate(m.receivedAt)}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">วันที่รับออก</td><td>${m.pickedUpAt?formatDate(m.pickedUpAt):'<span style="color:var(--amber)">ยังไม่รับ</span>'}</td></tr>
+      <tr><td style="padding:7px 0;color:var(--muted)">สถานะ</td><td><span class="pill ${m.status}">${m.status==='pending'?'⏳ รอรับ':'✅ รับแล้ว'}</span></td></tr>
+      ${m.note?`<tr><td style="padding:7px 0;color:var(--muted)">หมายเหตุ</td><td>${m.note}</td></tr>`:''}
+    </table>
+    <div style="margin-top:1rem;text-align:center">
+      <div id="modal-qr-${m.id}" style="display:inline-block"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:5px">${generateQRData(m.id,m.ems)}</div>
+    </div>
+    <div style="display:flex;gap:7px;justify-content:flex-end;margin-top:0.85rem;flex-wrap:wrap">
+      ${m.status==='pending'?`<button class="btn btn-green btn-sm" onclick="markReceived('${m.id}');closeModal('detail-modal')">✅ บันทึกรับ</button>`:''}
+      <button class="btn btn-outline btn-sm" onclick="resendNotification('${m.id}')">📧 ส่งแจ้งเตือน</button>
+      <button class="btn btn-danger btn-sm" onclick="confirmDeleteMail('${m.id}');closeModal('detail-modal')">🗑 ลบ</button>
+    </div>`;
+  openModal('detail-modal');
+  setTimeout(()=>{
+    const el = document.getElementById('modal-qr-'+m.id);
+    if (el && window.QRCode) new QRCode(el,{text:generateQRData(m.id,m.ems),width:130,height:130,colorDark:'#00b4d8',colorLight:'#1e3250'});
+  },200);
+}
+
+async function resendNotification(id) {
+  const m = mails.find(m=>m.id===id);
+  if (m) { await sendNotification(m); closeModal('detail-modal'); }
+}
+
+// ═══════════════════════════════════════════
+//  EMPLOYEES
+// ═══════════════════════════════════════════
+function renderEmployees(filtered) {
+  const data = filtered !== undefined ? filtered : employees;
+  const tbody = document.getElementById('emp-table');
+  if (!data.length) { tbody.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="icon">👤</div>ยังไม่มีรายชื่อ</div></td></tr>'; return; }
+  tbody.innerHTML = data.map((e,i)=>{
+    const p = mails.filter(m=>m.employeeEmail===e.email&&m.status==='pending').length;
+    return `<tr>
+      <td style="color:var(--muted);font-size:11px">${i+1}</td>
+      <td><b>${e.name}</b></td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">${e.id||'—'}</td>
+      <td style="font-size:12px">${e.dept||'—'}</td>
+      <td style="font-size:12px;color:var(--accent)">${e.email}</td>
+      <td>${p>0?`<span class="pill pending">⏳ ${p}</span>`:'<span style="color:var(--muted);font-size:11px">—</span>'}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="removeEmployee('${e.email}')">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterEmployees(q) {
+  const data = q ? employees.filter(e=>e.name.toLowerCase().includes(q.toLowerCase())||e.dept?.toLowerCase().includes(q.toLowerCase())||e.id?.toLowerCase().includes(q.toLowerCase())) : employees;
+  renderEmployees(data);
+}
+
+function openAddEmpModal() { openModal('emp-modal'); }
+
+function addEmployee() {
+  const name = document.getElementById('new-emp-name').value.trim();
+  const email = document.getElementById('new-emp-email').value.trim();
+  const dept = document.getElementById('new-emp-dept').value.trim();
+  const id = document.getElementById('new-emp-id').value.trim();
+  if (!name||!email) { showToast('กรุณากรอกชื่อและอีเมล','error'); return; }
+  if (employees.find(e=>e.email===email)) { showToast('อีเมลนี้มีในระบบแล้ว','error'); return; }
+  employees.push({id,name,dept,email});
+  saveEmployees(); renderEmployees(); updateStats(); closeModal('emp-modal');
+  ['new-emp-name','new-emp-email','new-emp-dept','new-emp-id'].forEach(id=>document.getElementById(id).value='');
+  showToast('✅ เพิ่มพนักงานแล้ว','success');
+}
+
+function removeEmployee(email) {
+  if (!confirm('ต้องการลบพนักงานคนนี้?')) return;
+  employees = employees.filter(e=>e.email!==email);
+  saveEmployees(); renderEmployees(); updateStats();
+  showToast('ลบพนักงานแล้ว','success');
+}
+
+function importExcel(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const wb = XLSX.read(e.target.result,{type:'binary'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json(ws,{header:1});
+      let added=0;
+      data.forEach((row,i)=>{
+        if (i===0) return;
+        const [name,id,dept,email]=row;
+        if (!name||!email) return;
+        if (!employees.find(e=>e.email===String(email))) { employees.push({id:String(id||''),name:String(name),dept:String(dept||''),email:String(email)}); added++; }
+      });
+      saveEmployees(); renderEmployees(); updateStats();
+      showToast(`✅ นำเข้า ${added} รายการสำเร็จ`,'success');
+    } catch(err) { showToast('อ่านไฟล์ไม่ได้: '+err.message,'error'); }
+    input.value='';
+  };
+  reader.readAsBinaryString(file);
+}
+
+function exportHistory() {
+  if (!currentUser||currentUser.role!=='admin') { showToast('❌ Admin เท่านั้น','error'); return; }
+  const rows=[['#','เลข EMS','ประเภท','ผู้รับ','แผนก','อีเมล','วันที่รับเข้า','วันที่รับออก','รหัสรับพัสดุ','สถานะ']];
+  mails.forEach((m,i)=>rows.push([i+1,m.ems,m.mailType,m.employeeName,m.employeeDept,m.employeeEmail,formatDate(m.receivedAt),m.pickedUpAt?formatDate(m.pickedUpAt):'',m.pickupCode||'',m.status==='pending'?'รอรับ':'รับแล้ว']));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'ทะเบียนจดหมาย');
+  XLSX.writeFile(wb,`mail-history-${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ═══════════════════════════════════════════
+//  PERMISSIONS
+// ═══════════════════════════════════════════
+function renderPermissionsTable() {
+  const tbody = document.getElementById('perm-tbody'); if (!tbody) return;
+  tbody.innerHTML = Object.entries(PERM_LABELS).map(([key,label])=>`<tr>
+    <td>${label}</td>
+    <td style="text-align:center">${key==='dashboard'||key==='accounts'||key==='permissions'||key==='codeeditor'?'<span style="color:var(--green)">✅ เสมอ</span>':`<span class="perm-check" onclick="togglePerm('${key}','admin')" title="คลิกเพื่อเปลี่ยน">${permissions[key]?.admin?'✅':'❌'}</span>`}</td>
+    <td style="text-align:center"><span class="perm-check" onclick="togglePerm('${key}','guard')" title="คลิกเพื่อเปลี่ยน">${permissions[key]?.guard?'✅':'❌'}</span></td>
+    <td style="text-align:center"><span class="perm-check" onclick="togglePerm('${key}','public')" title="คลิกเพื่อเปลี่ยน">${permissions[key]?.public?'✅':'❌'}</span></td>
+  </tr>`).join('');
+}
+
+function togglePerm(page, role) {
+  if (!permissions[page]) permissions[page]={admin:true,guard:false,public:false};
+  if (role==='admin' && ['dashboard','accounts','permissions','codeeditor'].includes(page)) return;
+  permissions[page][role] = !permissions[page][role];
+  renderPermissionsTable();
+}
+
+function savePermissions() {
+  localStorage.setItem('mt_permissions', JSON.stringify(permissions));
+  showToast('✅ บันทึกสิทธิ์แล้ว','success');
+}
+
+// ═══════════════════════════════════════════
+//  CODE EDITOR
+// ═══════════════════════════════════════════
+let codeEditorUnlocked = false;
+
+function loadCodeEditor() {
+  document.getElementById('code-locked').style.display = codeEditorUnlocked ? 'none' : 'block';
+  document.getElementById('code-unlocked').style.display = codeEditorUnlocked ? 'block' : 'none';
+}
+
+function unlockCodeEditor() {
+  const pass = document.getElementById('code-auth-pass').value;
+  const accs = getAccounts();
+  if (pass !== accs.admin.password) { showToast('❌ รหัสผ่านไม่ถูกต้อง','error'); return; }
+  codeEditorUnlocked = true;
+  document.getElementById('code-locked').style.display='none';
+  document.getElementById('code-unlocked').style.display='block';
+  document.getElementById('code-auth-pass').value='';
+  // Load current page source
+  document.getElementById('code-textarea').value = document.documentElement.outerHTML;
+  updateCodeCount();
+  showToast('🔓 ปลดล็อคแล้ว','success');
+}
+
+function lockCodeEditor() {
+  codeEditorUnlocked=false;
+  document.getElementById('code-locked').style.display='block';
+  document.getElementById('code-unlocked').style.display='none';
+}
+
+function updateCodeCount() {
+  const len = document.getElementById('code-textarea').value.length;
+  document.getElementById('code-char-count').textContent = len.toLocaleString() + ' ตัวอักษร';
+}
+
+function saveCode() { openModal('save-code-modal'); document.getElementById('save-code-pass').value=''; }
+
+function confirmSaveCode() {
+  const pass = document.getElementById('save-code-pass').value;
+  const accs = getAccounts();
+  if (pass !== accs.admin.password) { showToast('❌ รหัสผ่านไม่ถูกต้อง','error'); return; }
+  const newCode = document.getElementById('code-textarea').value;
+  // Save to localStorage and offer download
+  localStorage.setItem('mt_saved_code', newCode);
+  closeModal('save-code-modal');
+  showToast('✅ บันทึกโค้ดแล้ว — กด "ดาวน์โหลด" เพื่อนำไปใช้','success');
+  // Auto download
+  downloadCode();
+}
+
+function copyCode() {
+  navigator.clipboard.writeText(document.getElementById('code-textarea').value).then(()=>showToast('📋 คัดลอกโค้ดแล้ว','success'));
+}
+
+function downloadCode() {
+  const code = document.getElementById('code-textarea').value;
+  const blob = new Blob([code],{type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mailtrack-pro.html';
+  a.click();
+  showToast('⬇️ ดาวน์โหลดโค้ดแล้ว','success');
+}
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function formatDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('th-TH',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.className='show '+type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>{t.className='';}, 3500);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function setupDragDrop() {
+  const zone = document.getElementById('drop-zone'); if (!zone) return;
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.borderColor='var(--accent)';});
+  zone.addEventListener('dragleave',()=>{zone.style.borderColor='';});
+  zone.addEventListener('drop',e=>{
+    e.preventDefault(); zone.style.borderColor='';
+    const file=e.dataTransfer.files[0];
+    if (file) { const inp=document.getElementById('excel-import2'); inp.files=e.dataTransfer.files; importExcel(inp); }
+  });
+}
+
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); });
+});
+
+// Auto-collapse sidebar on small screens on load
+if (window.innerWidth <= 768) {
+  document.getElementById('sidebar').classList.add('collapsed');
+}
+
+selectRole('admin');
+</script>
+</body>
+</html>
